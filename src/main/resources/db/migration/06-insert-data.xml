@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="6" author="bogdan_shulga">
+
+        <insert tableName="users">
+            <column name="first_name">James</column>
+            <column name="last_name"> Campbell </column>
+            <column name="email">james.campbell.1985@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">John</column>
+            <column name="last_name">Clarke</column>
+            <column name="email">john.clarke.1988@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">Robert</column>
+            <column name="last_name">Johnston</column>
+            <column name="email">robert.johnston.1990@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">Michael</column>
+            <column name="last_name">Hughes</column>
+            <column name="email">michael.hughes.1995@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">William</column>
+            <column name="last_name">Fitzgerald</column>
+            <column name="email">william.ditzgerald.1987@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">David</column>
+            <column name="last_name">O’Farrell</column>
+            <column name="email">david.farrell.1999@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">Richard</column>
+            <column name="last_name">Brown</column>
+            <column name="email">richard.brown.1991@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">Joseph</column>
+            <column name="last_name">Martin</column>
+            <column name="email">joseph.martin.1993@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">Thomas</column>
+            <column name="last_name">Maguire</column>
+            <column name="email">thomas.maguire.1988@gmail.com</column>
+        </insert>
+
+        <insert tableName="users">
+            <column name="first_name">Charles</column>
+            <column name="last_name">Nolan</column>
+            <column name="email">charles.nolan.1996@gmail.com</column>
+        </insert>
+
+        <insert tableName="places">
+            <column name="name">Paris</column>
+            <column name="rating">9</column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">1</column>
+            <column name="place_id">1</column>
+            <column name="comment">I think it looks great! Very nice pace and I can see a mix of personal interests and famous sights :-)
+            </column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">2</column>
+            <column name="place_id">1</column>
+            <column name="comment">We have a week in Paris in November and with so many places to visit, I'm hoping that I have the major sights covered and of course have time left over for just wandering...Any comments on my plans are most welcome!
+            </column>
+        </insert>
+
+        <insert tableName="places">
+            <column name="name">Rome</column>
+            <column name="rating">9</column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">3</column>
+            <column name="place_id">2</column>
+            <column name="comment">The ethereal place that has been magnetising the world since centuries, Rome never fails to amaze!
+            </column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">4</column>
+            <column name="place_id">2</column>
+            <column name="comment">Rome is a city full of museums, squares, Roman buildings and other highlights. Rome has more to offer than just the main attractions like the Colosseum, the Pantheon and St. Peter’s Basilica in Vatican City.
+            </column>
+        </insert>
+
+        <insert tableName="places">
+            <column name="name">New Zealand</column>
+            <column name="rating">9</column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">5</column>
+            <column name="place_id">3</column>
+            <column name="comment">Excellent service throughout keeping you up to date with any last minute changes i.e. just before we were to leave for our trip received a message to say Tranzalpine was cancelled but arranged for us to be on coach which takes about same time so did not cause any problems with our other arrangements. Overall only six days during our four month world trip, one of only a few great memories and a wish to go back in the future using the same company.
+            </column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">6</column>
+            <column name="place_id">3</column>
+            <column name="comment">Experience New Zealand did an excellent job planning our trip. They asked and listened to our goals and preferences and built an itinerary to meet our needs. It made our trip so easy and enjoyable. New Zealand is beautiful. Highly recommend a trip to New Zealand, planned by Experience New Zealand.
+            </column>
+        </insert>
+
+        <insert tableName="places">
+            <column name="name">Tahiti</column>
+            <column name="rating">9</column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">7</column>
+            <column name="place_id">4</column>
+            <column name="comment">Think beautiful black and white sand beaches and tranquil, clear water, with vibrant coral reefs perfect for snorkeling and diving. Think exploring stone temples deep in the heart of luscious jungle heartland, witnessing traditional dance, and tasting authentic French Polynesian cuisine.
+            </column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">8</column>
+            <column name="place_id">4</column>
+            <column name="comment">Think black pearl and vanilla bean farms, and overwater bungalows above eletric blue water. Think tropical sunshine and coconut-based cocktails. You’re thinking about Tahiti. You’re thinking about Paradise on earth!
+            </column>
+        </insert>
+
+        <insert tableName="places">
+            <column name="name">London</column>
+            <column name="rating">9</column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">9</column>
+            <column name="place_id">5</column>
+            <column name="comment">Is the allure of the city whispering in your ear and tugging at your sleeve? It can be hard to resist. The shops, the bars, the hand-in-hand strolls... city breaks are undeniably romantic. They’re also great fun, and terrific value when you compare deals on TravelSupermarket
+            </column>
+        </insert>
+
+        <insert tableName="comments">
+            <column name="user_id">10</column>
+            <column name="place_id">5</column>
+            <column name="comment">My Dad says that being a Londoner has nothing to do with where you’re born. He says that there are people who get off a jumbo jet at Heathrow, go through immigration waving any kind of passport, hop on the tube and by the time the train’s pulled into Piccadilly Circus, they’ve become a Londoner
+            </column>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
