@@ -9,16 +9,13 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "places")
+@Table(name = "original_places")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Place {
+public class OriginalPlace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Trip trip;
 
     @Column(nullable = false)
     private String name;
@@ -26,4 +23,6 @@ public class Place {
     @Column(nullable = false)
     private int rating;
 
+    @OneToMany(mappedBy = "original_place", cascade = CascadeType.PERSIST)
+    private List<Comment> comments;
 }

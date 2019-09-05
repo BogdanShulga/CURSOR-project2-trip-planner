@@ -2,7 +2,6 @@ package com.good.fly.trip_planner.controller;
 
 import com.good.fly.trip_planner.dto.ShareTrip;
 import com.good.fly.trip_planner.dto.TripIdDepartureDate;
-import com.good.fly.trip_planner.model.Place;
 import com.good.fly.trip_planner.model.Trip;
 import com.good.fly.trip_planner.service.TripService;
 import lombok.AllArgsConstructor;
@@ -17,12 +16,12 @@ public class TripController {
 
     private TripService tripService;
 
-    @GetMapping("/create/trip/{userId}")
+    @PostMapping("/create/trip/{userId}")
     public ResponseEntity<Trip> createTrip(@PathVariable Long userId) {
         return tripService.createTrip(userId);
     }
 
-    @DeleteMapping("delete/trip/{tripId}")
+    @DeleteMapping("/delete/trip/{tripId}")
     public ResponseEntity<Boolean> deleteTrip(@PathVariable Long tripId) {
         return tripService.deleteTrip(tripId);
     }
@@ -42,9 +41,9 @@ public class TripController {
         return tripService.getAllTrips(userId);
     }
 
-    @PostMapping("/add/place/to/trip/{tripId}")
-    public ResponseEntity<String> addPlaceToTrip(@RequestBody Place place, @PathVariable Long tripId) {
-        return tripService.addPlaceToTrip(place, tripId);
+    @PostMapping("/add/place/to/trip")
+    public ResponseEntity<String> addPlaceToTrip(@RequestParam Long originalPlaceId, @RequestParam Long tripId) {
+        return tripService.addPlaceToTrip(originalPlaceId, tripId);
     }
 
     @DeleteMapping("/delete/place/in/trip")

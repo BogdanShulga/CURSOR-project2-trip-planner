@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class CommentPlaceIdUserId {
     private String comment;
-    private Long placeId;
+    private Long originalPlaceId;
     private Long userId;
 }

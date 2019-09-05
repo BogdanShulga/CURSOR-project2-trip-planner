@@ -1,7 +1,7 @@
 package com.good.fly.trip_planner.controller;
 
-import com.good.fly.trip_planner.model.Place;
-import com.good.fly.trip_planner.service.PlaceService;
+import com.good.fly.trip_planner.model.OriginalPlace;
+import com.good.fly.trip_planner.service.OriginalPlaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +11,13 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class PlaceController {
+public class OriginalPlaceController {
 
-    private PlaceService placeService;
+    private OriginalPlaceService originalPlaceService;
 
     @GetMapping("/get/all/places")
-    public ResponseEntity<List<Place>> getAllPlacesWithComments() {
-        return placeService.getAllPlacesWithComments();
+    public ResponseEntity<List<OriginalPlace>> getAllPlaces() {
+        return originalPlaceService.getAllOriginalPlacesWithComments();
     }
 
 }

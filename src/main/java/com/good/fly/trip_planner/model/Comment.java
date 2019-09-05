@@ -19,8 +19,7 @@ public class Comment {
     private User user;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    private Place place;
+    private OriginalPlace original_place;
 
-    @Column(nullable = false)
     private String comment;
 }
