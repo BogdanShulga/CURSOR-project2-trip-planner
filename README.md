@@ -1,4 +1,4 @@
-###### _*Tips to test Trip Planner*_
+# _*Tips to test Trip Planner*_
 
 To add a user:  
 POST: localhost:8080/add/user  
