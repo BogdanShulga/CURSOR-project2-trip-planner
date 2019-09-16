@@ -3,22 +3,22 @@ package com.good.fly.trip_planner.service;
 import com.good.fly.trip_planner.dto.ShareTripDto;
 import com.good.fly.trip_planner.dto.TripDepartureDto;
 import com.good.fly.trip_planner.model.Trip;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface TripService {
-    ResponseEntity<Trip> createTrip(Long userId);
 
-    ResponseEntity<Boolean> deleteTrip(Long tripId);
+    Trip createTrip(Long userId);
 
-    ResponseEntity<String> setShareStatus(ShareTripDto shareTripDto);
+    Boolean deleteTrip(Long tripId);
 
-    ResponseEntity<String> setDepartureDate(TripDepartureDto tripDepartureDto);
+    String setShareStatus(ShareTripDto shareTripDto);
 
-    ResponseEntity<List<Trip>> getAllTrips(Long userId);
+    String setDepartureDate(TripDepartureDto tripDepartureDto);
 
-    ResponseEntity<String> addPlaceToTrip(Long originalPlaceId, Long tripId);
+    List<Trip> getAllTrips(Long userId);
 
-    ResponseEntity<String> deletePlaceInTrip(Long placeId, Long tripId);
+    String addPlaceToTrip(Long originalPlaceId, Long tripId);
+
+    String deletePlaceInTrip(Long placeId, Long tripId);
 }

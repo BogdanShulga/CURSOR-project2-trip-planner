@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 @Data
 public class TripDepartureDto {
+
     private Long tripId;
+
     LocalDate departureDate;
 }

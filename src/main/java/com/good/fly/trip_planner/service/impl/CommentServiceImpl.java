@@ -10,8 +10,6 @@ import com.good.fly.trip_planner.repository.OriginalPlaceRepository;
 import com.good.fly.trip_planner.repository.UserRepository;
 import com.good.fly.trip_planner.service.CommentService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
     private OriginalPlaceRepository originalPlaceRepository;
 
     @Override
-    public ResponseEntity<String> addComment(CommentDto commentDto) {
+    public String addComment(CommentDto commentDto) {
 
         Comment comment = new Comment();
         comment.setComment(commentDto.getComment());
@@ -40,18 +38,14 @@ public class CommentServiceImpl implements CommentService {
         comment.setUser(user);
         Comment comment1 = commentRepository.save(comment);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Comment " + comment1.getId() + " added!");
+        return "Comment " + comment1.getId() + " added!";
     }
 
     @Override
-    public ResponseEntity<String> deleteComment(Long commentId) {
+    public String deleteComment(Long commentId) {
 
         commentRepository.deleteById(commentId);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Comment " + commentId + " deleted!");
+        return "Comment " + commentId + " deleted!";
     }
 }

@@ -1,12 +1,12 @@
 package com.good.fly.trip_planner.service;
 
 import com.good.fly.trip_planner.model.User;
-import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-    ResponseEntity<String> addUser(User user);
 
-    ResponseEntity<User> getUser(Long userId);
+    String addUser(User user);
 
-    ResponseEntity<String> deleteUser(Long userId);
+    User getUser(Long userId);
+
+    String deleteUser(Long userId);
 }

@@ -3,6 +3,7 @@ package com.good.fly.trip_planner.controller;
 import com.good.fly.trip_planner.model.OriginalPlace;
 import com.good.fly.trip_planner.service.OriginalPlaceService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,12 @@ public class OriginalPlaceController {
 
     @GetMapping("/all")
     public ResponseEntity<List<OriginalPlace>> getAllPlaces() {
-        return originalPlaceService.getAllOriginalPlacesWithComments();
+
+        List<OriginalPlace> originalPlaces = originalPlaceService.getAllOriginalPlacesWithComments();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(originalPlaces);
     }
 
 }

@@ -13,8 +13,6 @@ import com.good.fly.trip_planner.repository.TripRepository;
 import com.good.fly.trip_planner.repository.UserRepository;
 import com.good.fly.trip_planner.service.TripService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,7 +29,7 @@ public class TripServiceImpl implements TripService {
     private OriginalPlaceRepository originalPlaceRepository;
 
     @Override
-    public ResponseEntity<Trip> createTrip(Long userId) {
+    public Trip createTrip(Long userId) {
 
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.orElseThrow(NotFoundExceptions::new);
@@ -40,25 +38,19 @@ public class TripServiceImpl implements TripService {
         trip.setUser(user);
         trip.setName("Wonder " + trip.getUser().getFirstName() + "'s trip!");
 
-        Trip trip1 = tripRepository.save(trip);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(trip1);
+        return tripRepository.save(trip);
     }
 
     @Override
-    public ResponseEntity<Boolean> deleteTrip(Long tripId) {
+    public Boolean deleteTrip(Long tripId) {
 
         tripRepository.deleteById(tripId);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(true);
+        return true;
     }
 
     @Override
-    public ResponseEntity<String> setShareStatus(ShareTripDto shareTripDto) {
+    public String setShareStatus(ShareTripDto shareTripDto) {
 
         Optional<Trip> optionalTrip = tripRepository.findById(shareTripDto.getTripId());
         Trip trip = optionalTrip.orElseThrow(NotFoundExceptions::new);
@@ -66,13 +58,11 @@ public class TripServiceImpl implements TripService {
         trip.setShared(shareTripDto.isShare());
         tripRepository.save(trip);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Trip " + trip.getName() + " " + (shareTripDto.isShare() ? "is shared!" : "is hidden!"));
+        return "Trip " + trip.getName() + " " + (shareTripDto.isShare() ? "is shared!" : "is hidden!");
     }
 
     @Override
-    public ResponseEntity<String> setDepartureDate(TripDepartureDto tripDepartureDto) {
+    public String setDepartureDate(TripDepartureDto tripDepartureDto) {
 
         Optional<Trip> optionalTrip = tripRepository.findById(tripDepartureDto.getTripId());
         Trip trip = optionalTrip.orElseThrow(NotFoundExceptions::new);
@@ -90,27 +80,21 @@ public class TripServiceImpl implements TripService {
         trip.setEndDate(endDate);
         tripRepository.save(trip);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Departure and end dates to the trip " + trip.getName() + " is set!");
+        return "Departure and end dates to the trip " + trip.getName() + " is set!";
 
     }
 
     @Override
-    public ResponseEntity<List<Trip>> getAllTrips(Long userId) {
+    public List<Trip> getAllTrips(Long userId) {
 
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.orElseThrow(NotFoundExceptions::new);
 
-        List<Trip> trips = user.getTrips();
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(trips);
+        return user.getTrips();
     }
 
     @Override
-    public ResponseEntity<String> addPlaceToTrip(Long originalPlaceId, Long tripId) {
+    public String addPlaceToTrip(Long originalPlaceId, Long tripId) {
 
         Optional<OriginalPlace> optionalOriginalPlace = originalPlaceRepository.findById(originalPlaceId);
         OriginalPlace originalPlace = optionalOriginalPlace.orElseThrow(NotFoundExceptions::new);
@@ -130,13 +114,11 @@ public class TripServiceImpl implements TripService {
             setDepartureDate(tripDepartureDto);
         }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Place " + place.getName() + " added to trip " + trip.getName() + "!");
+        return "Place " + place.getName() + " added to trip " + trip.getName() + "!";
     }
 
     @Override
-    public ResponseEntity<String> deletePlaceInTrip(Long placeId, Long tripId) {
+    public String deletePlaceInTrip(Long placeId, Long tripId) {
 
         Trip trip = getTrip(tripId);
 
@@ -151,9 +133,7 @@ public class TripServiceImpl implements TripService {
             setDepartureDate(tripDepartureDto);
         }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Place " + place.getName() + (remove ? "removed!" : "not removed!"));
+        return "Place " + place.getName() + (remove ? "removed!" : "not removed!");
     }
 
     private Trip getTrip(Long tripId) {
