@@ -1,7 +1,7 @@
 package com.good.fly.trip_planner.controller;
 
-import com.good.fly.trip_planner.dto.ShareTrip;
-import com.good.fly.trip_planner.dto.TripIdDepartureDate;
+import com.good.fly.trip_planner.dto.ShareTripDto;
+import com.good.fly.trip_planner.dto.TripDepartureDto;
 import com.good.fly.trip_planner.model.Trip;
 import com.good.fly.trip_planner.service.TripService;
 import lombok.AllArgsConstructor;
@@ -12,41 +12,42 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/trip")
 public class TripController {
 
     private TripService tripService;
 
-    @PostMapping("/create/trip/{userId}")
+    @PostMapping("/{userId}")
     public ResponseEntity<Trip> createTrip(@PathVariable Long userId) {
         return tripService.createTrip(userId);
     }
 
-    @DeleteMapping("/delete/trip/{tripId}")
+    @DeleteMapping("/{tripId}")
     public ResponseEntity<Boolean> deleteTrip(@PathVariable Long tripId) {
         return tripService.deleteTrip(tripId);
     }
 
     @PutMapping("/share")
-    public ResponseEntity<String> setShareStatus(@RequestBody ShareTrip shareTrip) {
-        return tripService.setShareStatus(shareTrip);
+    public ResponseEntity<String> setShareStatus(@RequestBody ShareTripDto shareTripDto) {
+        return tripService.setShareStatus(shareTripDto);
     }
 
     @PutMapping("/departure")
-    public ResponseEntity<String> setDepartureDate(@RequestBody TripIdDepartureDate tripIdDepartureDate) {
-        return tripService.setDepartureDate(tripIdDepartureDate);
+    public ResponseEntity<String> setDepartureDate(@RequestBody TripDepartureDto tripDepartureDto) {
+        return tripService.setDepartureDate(tripDepartureDto);
     }
 
-    @GetMapping("/get/all/trips/{userId}")
+    @GetMapping("/all/{userId}")
     public ResponseEntity<List<Trip>> getAllTrips(@PathVariable Long userId) {
         return tripService.getAllTrips(userId);
     }
 
-    @PostMapping("/add/place/to/trip")
+    @PostMapping("/place")
     public ResponseEntity<String> addPlaceToTrip(@RequestParam Long originalPlaceId, @RequestParam Long tripId) {
         return tripService.addPlaceToTrip(originalPlaceId, tripId);
     }
 
-    @DeleteMapping("/delete/place/in/trip")
+    @DeleteMapping("/place")
     public ResponseEntity<String> deletePlaceInTrip(@RequestParam Long placeId, @RequestParam Long tripId) {
         return tripService.deletePlaceInTrip(placeId, tripId);
     }

@@ -1,9 +1,7 @@
 package com.good.fly.trip_planner.service;
 
-import com.good.fly.trip_planner.dto.ShareTrip;
-import com.good.fly.trip_planner.dto.TripIdDepartureDate;
-import com.good.fly.trip_planner.model.OriginalPlace;
-import com.good.fly.trip_planner.model.Place;
+import com.good.fly.trip_planner.dto.ShareTripDto;
+import com.good.fly.trip_planner.dto.TripDepartureDto;
 import com.good.fly.trip_planner.model.Trip;
 import org.springframework.http.ResponseEntity;
 
@@ -14,9 +12,9 @@ public interface TripService {
 
     ResponseEntity<Boolean> deleteTrip(Long tripId);
 
-    ResponseEntity<String> setShareStatus(ShareTrip shareTrip);
+    ResponseEntity<String> setShareStatus(ShareTripDto shareTripDto);
 
-    ResponseEntity<String> setDepartureDate(TripIdDepartureDate tripIdDepartureDate);
+    ResponseEntity<String> setDepartureDate(TripDepartureDto tripDepartureDto);
 
     ResponseEntity<List<Trip>> getAllTrips(Long userId);
 

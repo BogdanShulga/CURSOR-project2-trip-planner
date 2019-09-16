@@ -18,7 +18,9 @@ public class OriginalPlaceServiceImpl implements OriginalPlaceService {
 
     @Override
     public ResponseEntity<List<OriginalPlace>> getAllOriginalPlacesWithComments() {
+
         List<OriginalPlace> originalPlaces = originalPlaceRepository.findAll();
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(originalPlaces);

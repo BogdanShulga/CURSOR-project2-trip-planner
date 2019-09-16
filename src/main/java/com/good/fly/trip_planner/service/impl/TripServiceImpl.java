@@ -1,7 +1,8 @@
 package com.good.fly.trip_planner.service.impl;
 
-import com.good.fly.trip_planner.dto.ShareTrip;
-import com.good.fly.trip_planner.dto.TripIdDepartureDate;
+import com.good.fly.trip_planner.dto.ShareTripDto;
+import com.good.fly.trip_planner.dto.TripDepartureDto;
+import com.good.fly.trip_planner.exception.NotFoundExceptions;
 import com.good.fly.trip_planner.model.OriginalPlace;
 import com.good.fly.trip_planner.model.Place;
 import com.good.fly.trip_planner.model.Trip;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,11 +32,16 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public ResponseEntity<Trip> createTrip(Long userId) {
-        Trip trip = new Trip();
+
         Optional<User> optionalUser = userRepository.findById(userId);
-        optionalUser.ifPresent(trip::setUser);
+        User user = optionalUser.orElseThrow(NotFoundExceptions::new);
+
+        Trip trip = new Trip();
+        trip.setUser(user);
         trip.setName("Wonder " + trip.getUser().getFirstName() + "'s trip!");
+
         Trip trip1 = tripRepository.save(trip);
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(trip1);
@@ -44,42 +49,47 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public ResponseEntity<Boolean> deleteTrip(Long tripId) {
+
         tripRepository.deleteById(tripId);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(true);
     }
 
     @Override
-    public ResponseEntity<String> setShareStatus(ShareTrip shareTrip) {
-        Optional<Trip> optionalTrip = tripRepository.findById(shareTrip.getTripId());
-        Trip trip = new Trip();
-        if (optionalTrip.isPresent()) {
-            trip = optionalTrip.get();
-            trip.setShared(shareTrip.isShare());
-            tripRepository.save(trip);
-        }
+    public ResponseEntity<String> setShareStatus(ShareTripDto shareTripDto) {
+
+        Optional<Trip> optionalTrip = tripRepository.findById(shareTripDto.getTripId());
+        Trip trip = optionalTrip.orElseThrow(NotFoundExceptions::new);
+
+        trip.setShared(shareTripDto.isShare());
+        tripRepository.save(trip);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Trip " + trip.getName() + " " + (shareTrip.isShare() ? "is shared!" : "is hidden!"));
+                .body("Trip " + trip.getName() + " " + (shareTripDto.isShare() ? "is shared!" : "is hidden!"));
     }
 
     @Override
-    public ResponseEntity<String> setDepartureDate(TripIdDepartureDate tripIdDepartureDate) {
-        Optional<Trip> optionalTrip = tripRepository.findById(tripIdDepartureDate.getTripId());
-        Trip trip = new Trip();
-        if (optionalTrip.isPresent()) {
-            trip = optionalTrip.get();
-            LocalDate departureDate = tripIdDepartureDate.getDepartureDate();
-            int size;
-            if (trip.getPlaces() != null) {
-                size = trip.getPlaces().size();
-            } else size = 0;
-            LocalDate endDate = departureDate.plusDays(size == 0 ? 0 : size * 5);
-            trip.setDepartureDate(departureDate);
-            trip.setEndDate(endDate);
-            tripRepository.save(trip);
-        }
+    public ResponseEntity<String> setDepartureDate(TripDepartureDto tripDepartureDto) {
+
+        Optional<Trip> optionalTrip = tripRepository.findById(tripDepartureDto.getTripId());
+        Trip trip = optionalTrip.orElseThrow(NotFoundExceptions::new);
+
+        LocalDate departureDate = tripDepartureDto.getDepartureDate();
+
+        int size;
+        if (trip.getPlaces() != null) {
+            size = trip.getPlaces().size();
+        } else size = 0;
+
+        LocalDate endDate = departureDate.plusDays(size == 0 ? 0 : size * 5);
+
+        trip.setDepartureDate(departureDate);
+        trip.setEndDate(endDate);
+        tripRepository.save(trip);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Departure and end dates to the trip " + trip.getName() + " is set!");
@@ -88,11 +98,12 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public ResponseEntity<List<Trip>> getAllTrips(Long userId) {
+
         Optional<User> optionalUser = userRepository.findById(userId);
-        List<Trip> trips = new ArrayList<>();
-        if (optionalUser.isPresent()) {
-            trips = optionalUser.get().getTrips();
-        }
+        User user = optionalUser.orElseThrow(NotFoundExceptions::new);
+
+        List<Trip> trips = user.getTrips();
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(trips);
@@ -101,11 +112,10 @@ public class TripServiceImpl implements TripService {
     @Override
     public ResponseEntity<String> addPlaceToTrip(Long originalPlaceId, Long tripId) {
 
-        Trip trip = getTrip(tripId);
-
-        OriginalPlace originalPlace = new OriginalPlace();
         Optional<OriginalPlace> optionalOriginalPlace = originalPlaceRepository.findById(originalPlaceId);
-        if (optionalOriginalPlace.isPresent()) originalPlace = optionalOriginalPlace.get();
+        OriginalPlace originalPlace = optionalOriginalPlace.orElseThrow(NotFoundExceptions::new);
+
+        Trip trip = getTrip(tripId);
 
         Place place = new Place();
         place.setName(originalPlace.getName());
@@ -116,8 +126,8 @@ public class TripServiceImpl implements TripService {
         tripRepository.save(trip);
 
         if (trip.getDepartureDate() != null) {
-            TripIdDepartureDate tripIdDepartureDate = getTripIdDepartureDate(trip);
-            setDepartureDate(tripIdDepartureDate);
+            TripDepartureDto tripDepartureDto = getTripIdDepartureDate(trip);
+            setDepartureDate(tripDepartureDto);
         }
 
         return ResponseEntity
@@ -130,16 +140,15 @@ public class TripServiceImpl implements TripService {
 
         Trip trip = getTrip(tripId);
 
-        Place place = new Place();
         Optional<Place> optionalPlace = placeRepository.findById(placeId);
-        if (optionalPlace.isPresent()) place = optionalPlace.get();
+        Place place = optionalPlace.orElseThrow(NotFoundExceptions::new);
 
         boolean remove = trip.getPlaces().remove(place);
         tripRepository.save(trip);
 
         if (trip.getDepartureDate() != null) {
-            TripIdDepartureDate tripIdDepartureDate = getTripIdDepartureDate(trip);
-            setDepartureDate(tripIdDepartureDate);
+            TripDepartureDto tripDepartureDto = getTripIdDepartureDate(trip);
+            setDepartureDate(tripDepartureDto);
         }
 
         return ResponseEntity
@@ -148,16 +157,16 @@ public class TripServiceImpl implements TripService {
     }
 
     private Trip getTrip(Long tripId) {
+
         Optional<Trip> optionalTrip = tripRepository.findById(tripId);
-        Trip trip = new Trip();
-        if (optionalTrip.isPresent()) trip = optionalTrip.get();
-        return trip;
+
+        return optionalTrip.orElseThrow(NotFoundExceptions::new);
     }
 
-    private TripIdDepartureDate getTripIdDepartureDate(Trip trip) {
-        TripIdDepartureDate tripIdDepartureDate = new TripIdDepartureDate();
-        tripIdDepartureDate.setTripId(trip.getId());
-        tripIdDepartureDate.setDepartureDate(trip.getDepartureDate());
-        return tripIdDepartureDate;
+    private TripDepartureDto getTripIdDepartureDate(Trip trip) {
+        TripDepartureDto tripDepartureDto = new TripDepartureDto();
+        tripDepartureDto.setTripId(trip.getId());
+        tripDepartureDto.setDepartureDate(trip.getDepartureDate());
+        return tripDepartureDto;
     }
 }

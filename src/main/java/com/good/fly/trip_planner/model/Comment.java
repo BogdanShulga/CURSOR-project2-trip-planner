@@ -19,7 +19,7 @@ public class Comment {
     private User user;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    private OriginalPlace original_place;
+    private OriginalPlace originalPlace;
 
     private String comment;
 }

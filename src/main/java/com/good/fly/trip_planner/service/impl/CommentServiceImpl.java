@@ -1,6 +1,7 @@
 package com.good.fly.trip_planner.service.impl;
 
-import com.good.fly.trip_planner.dto.CommentPlaceIdUserId;
+import com.good.fly.trip_planner.dto.CommentDto;
+import com.good.fly.trip_planner.exception.NotFoundExceptions;
 import com.good.fly.trip_planner.model.Comment;
 import com.good.fly.trip_planner.model.OriginalPlace;
 import com.good.fly.trip_planner.model.User;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 @Service
 @AllArgsConstructor
 public class CommentServiceImpl implements CommentService {
@@ -25,18 +25,21 @@ public class CommentServiceImpl implements CommentService {
     private OriginalPlaceRepository originalPlaceRepository;
 
     @Override
-    public ResponseEntity<String> addComment(CommentPlaceIdUserId commentPlaceIdUserId) {
+    public ResponseEntity<String> addComment(CommentDto commentDto) {
+
         Comment comment = new Comment();
-        comment.setComment(commentPlaceIdUserId.getComment());
-        User user = new User();
-        Optional<User> optionalUser = userRepository.findById(commentPlaceIdUserId.getUserId());
-        if (optionalUser.isPresent()) user = optionalUser.get();
-        OriginalPlace originalPlace = new OriginalPlace();
-        Optional<OriginalPlace> optionalOriginalPlace = originalPlaceRepository.findById(commentPlaceIdUserId.getOriginalPlaceId());
-        if (optionalOriginalPlace.isPresent()) originalPlace = optionalOriginalPlace.get();
-        comment.setOriginal_place(originalPlace);
+        comment.setComment(commentDto.getComment());
+
+        Optional<User> optionalUser = userRepository.findById(commentDto.getUserId());
+        User user = optionalUser.orElseThrow(NotFoundExceptions::new);
+
+        Optional<OriginalPlace> optionalOriginalPlace = originalPlaceRepository.findById(commentDto.getOriginalPlaceId());
+        OriginalPlace originalPlace = optionalOriginalPlace.orElseThrow(NotFoundExceptions::new);
+
+        comment.setOriginalPlace(originalPlace);
         comment.setUser(user);
         Comment comment1 = commentRepository.save(comment);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Comment " + comment1.getId() + " added!");
@@ -44,7 +47,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ResponseEntity<String> deleteComment(Long commentId) {
+
         commentRepository.deleteById(commentId);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Comment " + commentId + " deleted!");

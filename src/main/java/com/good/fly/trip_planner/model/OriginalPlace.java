@@ -23,6 +23,6 @@ public class OriginalPlace {
     @Column(nullable = false)
     private int rating;
 
-    @OneToMany(mappedBy = "original_place", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "originalPlace", cascade = CascadeType.PERSIST)
     private List<Comment> comments;
 }
